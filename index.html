@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lecture 20 · Firebase Setup</title>
+  <meta name="description" content="Mobile App Development with Flutter, Lecture 20: Learn what Firebase is, create a Firebase project, connect the Flutter app with the FlutterFire CLI, start Firebase in main(), and enable Email/Password sign-in.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="flutter-logo" viewBox="0 0 166 210">
+    <path fill="#44D1FD" d="M10 101 100 11h56L38 129z"/>
+    <path fill="#1FBCFD" d="M51 150 100 102h56l-77 76z"/>
+    <path fill="#08589C" d="M79 178 107 150l49 49h-56z"/>
+  </symbol>
+  <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 3v12"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2 19.5 4 16h16l2 3.5a1 1 0 0 1-.9 1.5H2.9a1 1 0 0 1-.9-1.5z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><path d="M22 12H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.6a11 11 0 0 1 14 0"/><path d="M1.4 9a16 16 0 0 1 21.2 0"/><path d="M8.5 16.1a6 6 0 0 1 7 0"/><path d="M12 20h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="m7.5 4.3 9 5.1"/><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><path d="M12 19h8"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-mouse" viewBox="0 0 24 24"><path d="m4 4 7 17 2.5-7.5L21 11z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chrome" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M21.2 8H12M3.9 6.1 8.5 14M10.9 21.9l4.6-7.9"/></symbol>
+  <symbol id="i-cable" viewBox="0 0 24 24"><path d="M17 21v-2a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v2"/><path d="M19 15V6.5a3.5 3.5 0 0 0-7 0v11a3.5 3.5 0 0 1-7 0V9"/><path d="M3 9V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 7c-1.5-1.3-4.5-1.6-6 .5-1.6 2.3-1 6.6 1.3 9.9 1 1.4 2 2.6 3.2 2.5.9 0 1.2-.6 1.5-.6s.6.6 1.5.6c1.2.1 2.2-1.1 3.2-2.5 2.3-3.3 2.9-7.6 1.3-9.9-1.5-2.1-4.5-1.8-6-.5z"/><path d="M12 7c0-2 1-3.5 3-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3c.5.6.3 1.7-.5 2.2-.6.3-1.3.5-2 .5z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="firebase-logo" viewBox="0 0 24 30">
+    <path fill="#FF9100" d="M13 1.2c3.6 4.3 8.7 8.9 8.7 16.6a9.7 9.7 0 0 1-19.4 0c0-4.6 2.2-7.6 4.7-9.8.1 2.7 1.3 4.6 3 5.1-.5-4 .6-8.1 3-11.9z"/>
+    <path fill="#FFC400" d="M12 27a5.4 5.4 0 0 1-5.4-5.4c0-3.2 2.2-5.3 4.2-7.5.2 1.9 1.1 3.1 2.5 3.4-.1-1.4.5-2.9 1.5-4.1 2.1 2.3 2.6 4.9 2.6 8.2a5.4 5.4 0 0 1-5.4 5.4z"/>
+  </symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-bar-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 24 24"><path d="m8 2 1.9 1.9M14.1 3.9 16 2"/><path d="M9 7.1v-1a3 3 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.5 9C4.6 8.8 3 7.1 3 5M6 13H2M3 21c0-2.1 1.7-3.9 3.8-4M21 5c0 2.1-1.6 3.8-3.5 4M22 13h-4M17.2 17c2.1.1 3.8 1.9 3.8 4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></symbol>
+  <symbol id="i-arrows-lr" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.9 1 6.7 2.7L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.2 6.8a2.8 2.8 0 0 0-4-4L3.8 16.2a2 2 0 0 0-.5.8l-1.3 4.4a.5.5 0 0 0 .6.6l4.4-1.3a2 2 0 0 0 .8-.5z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<main class="deck">
+
+<!-- 01 · Title -->
+<section class="slide">
+  <div class="canvas"><div class="frame frame--title" style="grid-template-columns: 1.05fr .95fr;">
+    <div class="stagger">
+      <p class="kicker">Lecture 20 · Mobile App Development</p>
+      <h1 class="hero">Firebase 1:<br><span class="grad-text">Introduction &amp; Project Setup</span></h1>
+      <p class="lead lead--hero">Give your app a ready-made server. Today we create a Firebase project and connect our login app to it.</p>
+      <div class="chips">
+        <span class="chip"><span class="avatar">MI</span>Eng. Monther Ibrahim</span>
+        <span class="chip"><span class="avatar">M</span>Muhammad, M.Sc.</span>
+        <span class="chip">Fall 2026</span>
+      </div>
+      <p class="keys"><kbd>→</kbd> next &nbsp;·&nbsp; <kbd>F</kbd> fullscreen &nbsp;·&nbsp; <kbd>N</kbd> notes &nbsp;·&nbsp; <kbd>T</kbd> theme</p>
+    </div>
+    <div class="title-right" aria-hidden="true" style="display:flex; align-items:center; justify-content:center;">
+      <div class="logo-glow" style="left:2%; top:14%; width:20cqw; height:20cqw;"></div>
+      <div class="logo-glow" style="left:auto; right:-2cqw; top:16%; width:18cqw; height:18cqw; background: radial-gradient(circle, rgba(255, 160, 0, .3), transparent 65%);"></div>
+      <div class="ph" style="--pw:13cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-field" style="margin-top:.5em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+            <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+            <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+            <div class="m-btn m-btn--fill is-wide">Login</div>
+            <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="connect">
+        <span class="connect__lbl">today we<br>connect them</span>
+        <i class="connect__line"></i>
+      </div>
+      <div class="fb-cloud">
+        <svg class="fb-cloud__shape" viewBox="1.5 4.5 21 15" preserveAspectRatio="none"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>
+        <div class="fb-cloud__in"><svg class="logo"><use href="#firebase-logo"/></svg>Firebase</div>
+      </div>
+    </div>
+  </div></div>
+  <aside class="notes"><p>Our login page looks real, but nothing checks the password. Today we connect the app to Firebase. Next lecture, the Login button will really sign people in.</p></aside>
+</section>
+
+<!-- 02 · Learning objectives -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Today</p>
+      <h2 class="title">Learning objectives</h2>
+      <p class="lead">Today is mostly <b>setup</b>: many small steps, little code. Each step is done once per project.</p>
+    </header>
+    <div class="body" style="grid-template-rows: 1fr auto;">
+      <div class="journey stagger">
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-cloud"/></svg><span class="stop__n">1</span></div><h3>Firebase</h3><p>Say what Firebase is and what its main services do</p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-plus"/></svg><span class="stop__n">2</span></div><h3>Project</h3><p>Create a Firebase project in the console</p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-terminal"/></svg><span class="stop__n">3</span></div><h3>Tools</h3><p>Install the Firebase CLI and the FlutterFire CLI</p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-link"/></svg><span class="stop__n">4</span></div><h3>Connect</h3><p>Connect the app with <code>flutterfire configure</code> and start Firebase in <code>main()</code></p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-lock"/></svg><span class="stop__n">5</span></div><h3>Sign-in</h3><p>Understand users, providers and the <code>uid</code>, and enable Email/Password</p></div>
+      </div>
+      <div class="callout callout--ok goal"><svg class="ico"><use href="#i-target"/></svg><div><b>Goal:</b> our login app connected to <b>our own</b> Firebase project, with Email/Password sign-in switched on for next lecture.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Warn students that today is mostly setup: many small steps, little code. Every step is done once per project, and next lecture is all code.</p></aside>
+</section>
+
+<!-- 03 · What is Firebase? -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">The idea</p>
+      <h2 class="title">What is Firebase?</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.1fr .9fr; gap: 2.4cqw; align-items:center;">
+      <div class="legend-groups stagger">
+        <div class="lg" style="--c:#F87171;"><span class="n"><svg class="ico"><use href="#i-alert"/></svg></span><b>The problem</b><span>A real login needs a <b>server</b>: a computer on the internet that stores accounts and checks passwords. Building one takes another language, a database and security work.</span></div>
+        <div class="lg" style="--c:#FFA000;"><span class="n"><svg class="ico"><use href="#i-cloud"/></svg></span><b>Firebase</b><span>Google's <b>backend-as-a-service</b>: a <b>ready-made server</b> you use from your app. The "backend" is the server side of an app; "as a service" means Google runs it for you.</span></div>
+        <div class="lg" style="--c:#4ADE80;"><span class="n"><svg class="ico"><use href="#i-check"/></svg></span><b>Why Flutter apps use it</b><span>No server code to write, official Flutter packages (called <b>FlutterFire</b>), works on Android, iOS and web, free to start.</span></div>
+      </div>
+      <div class="fb-flow" aria-hidden="true">
+        <div class="ph-col">
+          <div class="ph" style="--pw:9.5cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="col" style="gap:.7em; padding-top:2.8em;">
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center; font-size:1.35em;">Welcome back</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+                <div class="m-btn m-btn--fill is-wide">Login</div>
+              </div>
+            </div>
+          </div>
+          <p class="ph-cap"><b>Flutter app</b></p>
+        </div>
+        <div class="fb-link"><svg class="ico"><use href="#i-arrows-lr"/></svg><span>internet</span></div>
+        <div class="card card--hl fb-box">
+          <div class="fb-box__head"><svg class="logo"><use href="#firebase-logo"/></svg><div><h3>Firebase</h3><small><svg class="ico"><use href="#i-cloud"/></svg>Google's cloud</small></div></div>
+          <div class="fb-svc"><svg class="ico"><use href="#i-users"/></svg>Accounts</div>
+          <div class="fb-svc"><svg class="ico"><use href="#i-database"/></svg>Database</div>
+          <div class="fb-svc"><svg class="ico"><use href="#i-folder"/></svg>Files</div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Compare with a restaurant: you can build a kitchen yourself, or order from one that is already running. Firebase is the running kitchen. Ask: which apps on your phone have a login? All of them need a server like this.</p></aside>
+</section>
+
+<!-- 04 · Services and the free plan -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Services</p>
+      <h2 class="title">Firebase services and the free plan</h2>
+    </header>
+    <div class="body svc-grid stagger">
+      <article class="card card--hl svc">
+        <span class="badge badge--ok">We use it</span>
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-user-check"/></svg></span><h3>Authentication</h3></div>
+        <p>Sign up, sign in, sign out (email, Google, …)</p>
+        <div class="svc__plan"><small>Spark plan</small>Free up to 50,000 monthly active users; phone (SMS) sign-in needs the paid plan</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-database"/></svg></span><h3>Cloud Firestore</h3></div>
+        <p>A database in the cloud for your app's data</p>
+        <div class="svc__plan"><small>Spark plan</small>1 GiB stored, 50,000 reads, 20,000 writes and 20,000 deletes per day</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-image"/></svg></span><h3>Storage</h3></div>
+        <p>Keeps files such as photos and videos</p>
+        <div class="svc__plan is-paid"><small>Spark plan</small>Needs the paid Blaze plan</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-bell"/></svg></span><h3>Cloud Messaging</h3></div>
+        <p>Sends push notifications to phones</p>
+        <div class="svc__plan is-free"><small>Spark plan</small>Free</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-bar-chart"/></svg></span><h3>Analytics</h3></div>
+        <p>Counts users, screens and events</p>
+        <div class="svc__plan is-free"><small>Spark plan</small>Free</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-bug"/></svg></span><h3>Crashlytics</h3></div>
+        <p>Reports app crashes to you</p>
+        <div class="svc__plan is-free"><small>Spark plan</small>Free</div>
+      </article>
+      <article class="card svc">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-globe"/></svg></span><h3>Hosting</h3></div>
+        <p>Puts a website (or a Flutter web app) online</p>
+        <div class="svc__plan"><small>Spark plan</small>10 GB stored, 360 MB transfer per day</div>
+      </article>
+      <article class="card svc" style="background: var(--sky-tint); border-color: var(--sky-brd);">
+        <div class="svc__top"><span class="itile"><svg class="ico"><use href="#i-info"/></svg></span><h3>Two plans</h3></div>
+        <p><b>Spark</b> = the free plan: no credit card needed.</p>
+        <p><b>Blaze</b> = pay for what you use above the free amounts.</p>
+      </article>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Students only need Authentication in this course, and it is free for far more users than a student app will ever have. Limits are from firebase.google.com/pricing (November 2026); check the page if you teach this later, because Google changes them from time to time.</p></aside>
+</section>
+
+<!-- 05 · The setup plan -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Roadmap</p>
+      <h2 class="title">The setup plan</h2>
+      <p class="lead">Six stops from an empty console to a connected app. We tick them off as we go.</p>
+    </header>
+    <div class="body" style="grid-template-rows: auto auto 1fr;">
+      <div class="journey journey--road stagger">
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-globe"/></svg><span class="stop__n">1</span></div><h3>Firebase console (website)</h3><p>Create the project</p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-terminal"/></svg><span class="stop__n">2</span></div><h3>Firebase CLI</h3><p>Install it, <code>firebase login</code></p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-download"/></svg><span class="stop__n">3</span></div><h3>FlutterFire CLI</h3><p><code>dart pub global activate flutterfire_cli</code></p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-package"/></svg><span class="stop__n">4</span></div><h3>Terminal</h3><p><code>flutter pub add firebase_core firebase_auth</code></p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-gear"/></svg><span class="stop__n">5</span></div><h3>Terminal</h3><p><code>flutterfire configure</code></p></div>
+        <div class="stop"><div class="stop__dot"><svg class="ico"><use href="#i-code"/></svg><span class="stop__n">6</span></div><h3><code>lib/main.dart</code></h3><p><code>Firebase<wbr>.initializeApp()</code></p></div>
+      </div>
+      <div class="road-groups">
+        <div><b>Stops 1–3:</b> once per computer (or Google account)</div>
+        <div><b>Stops 4–6:</b> once per Flutter project</div>
+      </div>
+      <div class="callout callout--info goal"><svg class="ico"><use href="#i-terminal"/></svg><div>New word, <b>CLI</b> (command-line interface): a program you use by typing commands in the terminal.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Stops 1–3 are done once per computer (or once per Google account). Stops 4–6 are done once per Flutter project. Keep this slide visible and tick the stops off as you go.</p></aside>
+</section>
+
+<!-- 06 · Step 1 · Create a Firebase project -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 1 · Firebase console</p>
+      <h2 class="title">Create a Firebase project</h2>
+    </header>
+    <div class="body strip">
+      <div class="mockcol">
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-lock"/></svg>console.firebase.google.com</span></div>
+          <div class="fc fc--strip">
+            <div class="fc__top"><svg class="logo"><use href="#firebase-logo"/></svg>Firebase<span class="who"><svg class="ico"><use href="#i-user"/></svg></span></div>
+            <h5>Welcome to Firebase</h5>
+            <div class="fc-tile hot"><svg class="ico"><use href="#i-plus"/></svg>Create a new Firebase project</div>
+          </div>
+        </figure>
+        <div class="capn"><span class="n">1</span><p class="cap">Open <b>console.firebase.google.com</b> and sign in with your Google account → click <b>Create a new Firebase project</b>.</p></div>
+      </div>
+      <div class="mockcol">
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-lock"/></svg>console.firebase.google.com</span></div>
+          <div class="fc fc--strip">
+            <h5>Create a project</h5>
+            <div class="fc-input" style="margin-top:.3cqw;"><span class="lbl">Project name</span>Course App<span class="fc-caret"></span></div>
+            <span class="fc-id"><svg class="ico"><use href="#i-pencil"/></svg>course-app-3f2a1</span>
+            <div class="fc-check"><i><svg class="ico"><use href="#i-check"/></svg></i>I accept the Firebase terms</div>
+            <span class="fc-btn hot">Continue</span>
+          </div>
+        </figure>
+        <div class="capn"><span class="n">2</span><p class="cap">Type a <b>project name</b>: <code>Course App</code>. Under it, Firebase shows the <b>project ID</b> (for example <code>course-app-3f2a1</code>). Accept the Firebase terms (first time only) → <b>Continue</b>.</p></div>
+      </div>
+      <div class="mockcol">
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-lock"/></svg>console.firebase.google.com</span></div>
+          <div class="fc fc--strip">
+            <h5>Create a project</h5>
+            <div class="fc-row"><svg class="ico"><use href="#i-sparkles"/></svg><span class="grow">Gemini in Firebase<small>AI assistance · optional</small></span><span class="fc-sw"></span></div>
+            <div class="fc-row"><svg class="ico"><use href="#i-bar-chart"/></svg><span class="grow">Google Analytics<small>off for this course</small></span><span class="fc-sw hot"></span></div>
+            <span class="fc-btn hot" style="margin-top:.2cqw;">Create project</span>
+          </div>
+        </figure>
+        <div class="capn"><span class="n">3</span><p class="cap"><b>AI assistance (Gemini in Firebase)</b>: optional, you can leave it off → <b>Continue</b>. <b>Google Analytics</b>: switch it <b>off</b> for this course → <b>Create project</b>.</p></div>
+      </div>
+      <div class="mockcol">
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-lock"/></svg>console.firebase.google.com</span></div>
+          <div class="fc fc--strip" style="justify-items:center; align-content:center; text-align:center;">
+            <svg viewBox="0 0 24 24" style="width:3.2cqw; height:3.2cqw;"><circle cx="12" cy="12" r="10" fill="#188038"/><path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h5>Your Firebase project is ready</h5>
+            <span class="fc-btn hot" style="justify-self:center;">Continue</span>
+          </div>
+        </figure>
+        <div class="capn"><span class="n">4</span><p class="cap">Wait about 30 seconds → "Your Firebase project is ready" → <b>Continue</b> → the project overview page.</p></div>
+      </div>
+      <div class="row-bottom" style="grid-template-columns: 1.25fr .75fr;">
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>The <b>project ID</b> must be unique in the whole world, so Firebase often adds random letters. It <b>cannot be changed</b> later.</div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>New projects start on the free <b>Spark</b> plan.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Do this live and let students follow. The project ID must be unique in the whole world, so Firebase often adds random letters; it cannot be changed later. Analytics is useful in real apps but adds extra screens and terms today, so we skip it. New projects start on the free Spark plan. The console changes its look from time to time; the steps stay the same.</p></aside>
+</section>
+
+<!-- 07 · Step 2 · Firebase CLI -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 2 · Firebase CLI</p>
+      <h2 class="title">Install the Firebase CLI and log in</h2>
+    </header>
+    <div class="body walk">
+      <div class="term">
+        <div class="term__bar"><i></i><i></i><i></i><span>Terminal</span></div>
+<pre style="font-size:1.24cqw;"><span class="t-c"># Windows or macOS · needs Node.js (LTS) from nodejs.org</span>
+<span class="t-p">$</span> npm install -g firebase-tools
+
+<span class="t-c"># macOS only · no Node.js needed</span>
+<span class="t-p">$</span> curl -sL https://firebase.tools | bash
+
+<span class="t-c"># Both · check, log in, list your projects</span>
+<span class="t-p">$</span> firebase --version
+<span class="t-p">$</span> firebase login
+<span class="t-p">$</span> firebase projects:list</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="callout callout--info"><svg class="ico"><use href="#i-windows"/></svg><div><b>Windows:</b> use npm (the FlutterFire team recommends it on Windows). A standalone <code>.exe</code> also exists: <span class="path">firebase.tools/bin/win/instant/latest</span></div></div>
+        <div class="say"><p><code>firebase login</code> opens the browser: choose the <b>same Google account</b> as in the console →</p></div>
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-globe"/></svg>localhost:9005</span></div>
+          <div class="fc" style="grid-template-columns: auto 1fr; align-items:center; gap:.3cqw 1cqw; padding:1.2cqw 1.4cqw;">
+            <svg class="logo" style="width:2.4cqw; height:3cqw; grid-row: span 2;"><use href="#firebase-logo"/></svg>
+            <h5>Firebase CLI Login Successful</h5>
+            <small style="font-size:.85cqw;">You can close this window and go back to the terminal.</small>
+          </div>
+        </figure>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>firebase projects:list</code> must show <b>Course App</b>.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>firebase-tools needs Node.js 20 or newer, so install the current LTS from nodejs.org. Login first asks whether Firebase may collect CLI usage data; either answer is fine. On a shared lab computer, run <code>firebase logout</code> at the end of class.</p></aside>
+</section>
+
+<!-- 08 · Step 3 · FlutterFire CLI -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 3 · FlutterFire CLI</p>
+      <h2 class="title">Install the FlutterFire CLI</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.12fr .88fr; grid-template-rows: auto 1fr; gap: 1.6cqw 2.2cqw; align-items:start;">
+      <div class="side">
+        <div class="term">
+          <div class="term__bar"><i></i><i></i><i></i><span>Terminal</span></div>
+<pre><span class="t-p">$</span> dart pub global activate flutterfire_cli
+<span class="t-p">$</span> flutterfire --version</pre>
+        </div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>If you see "command not found" / "is not recognized", add the pub-cache <code>bin</code> folder to your <b>PATH</b> (the list of folders where the terminal looks for programs):</div></div>
+        <div class="mini-h"><svg class="ico"><use href="#i-apple"/></svg>macOS (zsh)</div>
+        <div class="term">
+          <div class="term__bar"><i></i><i></i><i></i><span>Terminal</span></div>
+<pre><span class="t-p">$</span> echo 'export PATH="$PATH":"$HOME/.pub-cache/bin"' &gt;&gt; ~/.zshrc
+<span class="t-p">$</span> source ~/.zshrc</pre>
+        </div>
+      </div>
+      <div class="side">
+        <div class="mini-h"><svg class="ico"><use href="#i-windows"/></svg>Windows</div>
+        <p class="cap" style="font-size:1.2cqw;">Start → "Edit environment variables for your account" → <b>Path</b> → <b>Edit</b> → <b>New</b> → <code>%LOCALAPPDATA%\Pub\Cache\bin</code> → <b>OK</b></p>
+        <div class="w11">
+          <div class="w11__title">Edit environment variable<div class="ctl"><span>✕</span></div></div>
+          <div class="w11__body" style="display:grid; grid-template-columns: 1fr auto; gap:.8cqw;">
+            <div class="wlist wlist--one">
+              <div class="r"><span>%USERPROFILE%\AppData\Local\Microsoft\WindowsApps</span></div>
+              <div class="r edit"><span>%LOCALAPPDATA%\Pub\Cache\bin<span class="caret"></span></span></div>
+              <div class="r"><span>&nbsp;</span></div>
+              <div class="r"><span>&nbsp;</span></div>
+              <div class="r"><span>&nbsp;</span></div>
+            </div>
+            <div style="display:grid; gap:.45cqw; align-content:start;">
+              <span class="wb hot">New<i class="pin">1</i></span>
+              <span class="wb">Edit</span>
+              <span class="wb">Browse…</span>
+              <span class="wb">Delete</span>
+            </div>
+          </div>
+          <div class="w11__foot"><span class="wb wb--pri hot">OK<i class="pin">2</i></span><span class="wb">Cancel</span></div>
+        </div>
+      </div>
+      <div class="callout callout--info" style="grid-column: 1 / -1; align-self:end;"><svg class="ico"><use href="#i-refresh"/></svg><div>Then <b>close and reopen</b> the terminal (and VS Code) and try <code>flutterfire --version</code> again.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p><code>dart pub global activate</code> installs a Dart program for your whole computer, not for one project. Pub itself prints a PATH warning with the exact folder when it is missing; read it out to the class. The FlutterFire CLI uses the Firebase CLI behind the scenes, so Step 2 must work first.</p></aside>
+</section>
+
+<!-- 09 · Step 4 · Add the packages -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 4 · Terminal</p>
+      <h2 class="title">Add the packages</h2>
+    </header>
+    <div class="body walk">
+      <div class="side">
+        <div class="term">
+          <div class="term__bar"><i></i><i></i><i></i><span>Terminal · in the project folder</span></div>
+<pre style="font-size:1.3cqw;"><span class="t-p">$</span> flutter pub add firebase_core firebase_auth</pre>
+        </div>
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>pubspec.yaml</span><span class="grow"></span><span>added for you</span></div>
+<pre class="hl" data-lang="yaml" data-hl="4-5">dependencies:
+  flutter:
+    sdk: flutter
+  firebase_auth: ^7.0.1
+  firebase_core: ^5.1.0</pre>
+        </div>
+      </div>
+      <div class="explain stagger">
+        <div class="defs">
+          <div class="def"><code>firebase_core</code><span>Connects the app to Firebase (<b>always needed</b>)</span></div>
+          <div class="def"><code>firebase_auth</code><span>Accounts and sign-in (we use it from <b>next lecture</b>)</span></div>
+        </div>
+        <div class="card tree tree--mini">
+          <div class="row"><span><span class="d">course_app/</span></span><span class="note">open the terminal here</span></div>
+          <div class="row"><span><span class="g">├─ </span><span class="d">lib/</span></span><span class="note"></span></div>
+          <div class="row is-star"><span><span class="g">└─ </span><span class="f">pubspec.yaml</span></span><span class="note">the packages land here</span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-folder"/></svg><div>Run the command in the <b>project folder</b>, the one with <code>pubspec.yaml</code>.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>We add the packages before running <code>flutterfire configure</code>, so the CLI sees which Firebase products the app uses. Your <code>pubspec.yaml</code> will also list the packages from earlier lectures; that is fine.</p></aside>
+</section>
+
+<!-- 10 · Step 5 · flutterfire configure -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 5 · Terminal</p>
+      <h2 class="title"><code>flutterfire configure</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.5fr 1fr; gap: 2.2cqw; align-items:start;">
+      <div class="term">
+        <div class="term__bar"><i></i><i></i><i></i><span>Terminal · in the project folder</span></div>
+<pre style="font-size:1.02cqw;"><span class="t-p">$</span> flutterfire configure
+Found 1 Firebase projects.
+<span class="t-ok">✔</span> <span class="t-b">Select a Firebase project to configure your Flutter application with</span> · <span class="t-p" style="white-space:nowrap;">course-app-3f2a1 (Course App)</span>
+<span class="t-warn">?</span> <span class="t-b">Which platforms should your configuration support (use arrow keys &amp; space to select)?</span> ›
+<span class="t-ok">✔ android</span>
+<span class="t-ok">✔ ios</span>
+<span class="t-dim">  macos</span>
+<span class="t-ok">✔ web</span>
+<span class="t-dim">  windows</span>
+
+<span class="t-ok">Firebase configuration file lib/firebase_options.dart generated successfully with the following Firebase apps:</span>
+<span class="t-dim">Platform  Firebase App Id</span>
+android   1:123456789012:android:…
+ios       1:123456789012:ios:…</pre>
+      </div>
+      <div class="explain">
+        <ol class="steps bigsteps stagger" style="font-size:1.38cqw;">
+          <li><span>Pick <b>your project</b> with the arrow keys and <kbd>Enter</kbd></span></li>
+          <li><span>Pick the <b>platforms</b> with <kbd>Space</kbd> (android and ios; web is optional), then <kbd>Enter</kbd></span></li>
+          <li><span>For each platform, the CLI registers an <b>app</b> in your Firebase project and downloads its settings</span></li>
+        </ol>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-windows"/></svg><div>iOS is only configured when you run this on a <b>Mac</b>. On Windows, choose android (and web).</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Run it in the project folder. If it asks to overwrite <code>firebase_options.dart</code>, answer yes. iOS is only configured when you run this on a Mac; on Windows, choose android (and web). Run the command again whenever you add a platform or a sign-in method such as Google (Lecture 22).</p></aside>
+</section>
+
+<!-- 11 · What flutterfire configure created -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Generated files</p>
+      <h2 class="title">What <code>flutterfire configure</code> created</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr; gap: 2cqw; align-items:start;">
+      <div class="card tree tree--xwide" style="font-size:1.2cqw;">
+        <div class="row"><span><span class="d">course_app/</span></span><span class="note"></span></div>
+        <div class="row is-star"><span><span class="g">├─ </span><span class="f">firebase.json</span></span><span class="note">remembers your choices</span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="d">lib/</span></span><span class="note"></span></div>
+        <div class="row is-star"><span><span class="g">│  └─ </span><span class="f">firebase_options.dart</span></span><span class="note">settings for every platform, in Dart</span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="d">android/</span></span><span class="note"></span></div>
+        <div class="row is-mod"><span><span class="g">│  ├─ </span><span class="f">settings.gradle.kts</span></span><span class="note">+ Google Services plugin</span></div>
+        <div class="row"><span><span class="g">│  └─ </span><span class="d">app/</span></span><span class="note"></span></div>
+        <div class="row is-mod"><span><span class="g">│     ├─ </span><span class="f">build.gradle.kts</span></span><span class="note">+ Google Services plugin</span></div>
+        <div class="row is-star"><span><span class="g">│     └─ </span><span class="f">google-services.json</span></span><span class="note">Android settings</span></div>
+        <div class="row is-star"><span><span class="g">└─ </span><span class="f">ios/Runner/GoogleService-Info.plist</span></span><span class="note">iOS settings (Mac only)</span></div>
+      </div>
+      <div class="side stagger">
+        <div class="tree-legend"><span class="badge badge--warm">New file</span><span class="badge">Changed file</span></div>
+        <div class="callout callout--info" style="font-size:1.3cqw;"><svg class="ico"><use href="#i-file"/></svg><div><code>firebase_options.dart</code> has a class <code>DefaultFirebaseOptions</code> with one getter we use: <code>currentPlatform</code></div></div>
+        <div class="callout callout--ok" style="font-size:1.3cqw;"><svg class="ico"><use href="#i-shield"/></svg><div>These files hold <b>IDs, not passwords</b>: Firebase calls them "unique, but non-secret identifiers"</div></div>
+        <div class="callout callout--warn" style="font-size:1.3cqw;"><svg class="ico"><use href="#i-alert"/></svg><div><b>Never type or edit them by hand</b>: run <code>flutterfire configure</code> again instead</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Open <code>lib/firebase_options.dart</code> in VS Code and scroll through it: one <code>FirebaseOptions</code> block per platform with <code>apiKey</code>, <code>appId</code>, <code>projectId</code>… <code>currentPlatform</code> picks the right block for the phone the app runs on. Security comes from Firebase's rules on the server, not from hiding these IDs.</p></aside>
+</section>
+
+<!-- 12 · Android and iOS settings -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Platform settings</p>
+      <h2 class="title">Android and iOS settings</h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.2fr .8fr;">
+      <div class="term code">
+        <div class="term__bar"><i></i><i></i><i></i><span>Kotlin · Gradle files</span><span class="grow"></span><span>added by the CLI</span></div>
+<pre class="hl" data-groups="2-4:g2;8-10:g2">// android/settings.gradle.kts, inside plugins { }
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services") version("4.4.4") apply false
+    // END: FlutterFire Configuration
+
+// android/app/build.gradle.kts, inside plugins { }
+    id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    // END: FlutterFire Configuration</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="say"><p>The CLI added the <b>yellow</b> lines: they read <code>google-services.json</code> when the Android app is built.</p></div>
+        <div class="stats">
+          <div class="card stat stat--ok"><small>Android needs</small><b>minSdk 24</b><span>Flutter 3.47's <code>flutter.minSdkVersion</code> is already 24</span></div>
+          <div class="card stat stat--ok"><small>iOS needs</small><b>iOS 15.0</b><span>New Flutter 3.47 projects already target 15.0</span></div>
+        </div>
+        <p class="small muted" style="margin-top:-.4cqw;">Needed by <code>firebase_core</code> 5.x and <code>firebase_auth</code> 7.x.</p>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-apple"/></svg><div>If your project has <code>ios/Podfile</code>, its first line should be <code>platform :ios, '15.0'</code></div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-clock"/></svg><div>The first iOS build after adding Firebase is <b>slow</b> (it downloads the Firebase iOS SDK)</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Nothing to change in a new project. Only an old project with a hard-coded <code>minSdk = 21</code> (or a Podfile with <code>'13.0'</code>) needs the number raised. The plugin version may be different on your machine; keep what the CLI wrote.</p></aside>
+</section>
+
+<!-- 13 · Step 6 · Start Firebase in main() -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 6 · lib/main.dart</p>
+      <h2 class="title">Start Firebase in <code>main()</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr; gap: 2.2cqw; align-items:start;">
+      <div class="term code">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/main.dart</span></div>
+<pre class="hl" data-groups="6:g1;7:g2;8:g3;9:g4">import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+
+import 'firebase_options.dart';
+
+Future&lt;void&gt; main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
+}</pre>
+      </div>
+      <div class="legend-groups stagger">
+        <div class="lg" style="--c:#13B9FD;"><span class="n">1</span><b><code>Future&lt;void&gt; main() async</code></b><span><code>main</code> now waits for something, so it is <code>async</code> (Lecture 18)</span></div>
+        <div class="lg" style="--c:#FFC857;"><span class="n">2</span><b><code>ensureInitialized()</code></b><span>Gets Flutter ready <b>before</b> a plugin talks to Android or iOS</span></div>
+        <div class="lg" style="--c:#4ADE80;"><span class="n">3</span><b><code>await Firebase.initializeApp(...)</code></b><span>Connects to <b>our</b> project and waits until it is done</span></div>
+        <div class="lg" style="--c:#C792EA;"><span class="n">4</span><b><code>runApp</code> comes last</b><span>The app starts only when Firebase is ready</span></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Read it line by line. If your <code>main()</code> already has other lines from earlier lectures (for example <code>EasyLocalization.ensureInitialized()</code> or a Provider), keep them: just make sure the binding line comes first and <code>runApp</code> comes last.</p></aside>
+</section>
+
+<!-- 14 · First run -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Check it</p>
+      <h2 class="title">First run: are we connected?</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr auto; gap: 2.4cqw; align-items:start;">
+      <div class="side">
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/main.dart</span><span class="grow"></span><span>FirebaseCheckPage · build()</span></div>
+<pre class="hl" data-hl="2,5,7">// The Firebase app we connected to in main().
+final FirebaseApp app = Firebase.app();
+
+// The signed-in user, or null when nobody is signed in.
+final User? user = FirebaseAuth.instance.currentUser;
+// …
+Text('Project ID: ${app.options.projectId}'),</pre>
+      </div>
+      <div class="side stagger">
+        <div class="callout callout--info" style="font-size:1.28cqw;"><svg class="ico"><use href="#i-home"/></svg><div>For today only, <code>home:</code> shows this <code>FirebaseCheckPage</code> (full code in the Complete example)</div></div>
+        <div class="callout callout--warn" style="font-size:1.28cqw;"><svg class="ico"><use href="#i-refresh"/></svg><div><b>Stop</b> the app and run it again with <code>flutter run</code> (hot reload is not enough after adding plugins)</div></div>
+        <div class="callout callout--ok" style="font-size:1.28cqw;"><svg class="ico"><use href="#i-check-circle"/></svg><div>You should see <b>your</b> project ID. Nobody is signed in yet, so the user is <code>null</code></div></div>
+      </div>
+      </div>
+      <div class="ph" style="--pw:15cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="appbar">Firebase check</div>
+          <div class="col is-center" style="align-items:center; text-align:center; gap:.5em; padding:1em .6em 3em;">
+            <svg viewBox="0 0 24 24" style="width:4.6em; height:4.6em;"><circle cx="12" cy="12" r="10" fill="#4CAF50"/><path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="m-title" style="font-size:1.12em; margin-top:.5em;">Connected to Firebase!</div>
+            <div style="font-size:.95em; margin-top:.15em;">Project ID: course-app-3f2a1</div>
+            <div style="font-size:.95em;">Current user: nobody (null)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Then break it on purpose: comment out the <code>await Firebase.initializeApp(...)</code> line and run again. The red screen says "[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()". Put the line back. Errors are friends when you can read them.</p></aside>
+</section>
+
+<!-- 15 · Firebase Authentication: the big idea -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Authentication</p>
+      <h2 class="title">Firebase Authentication: the big idea</h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.05fr .95fr; align-items:start;">
+      <div class="explain">
+        <div class="defs stagger" style="gap:1.1cqw;">
+          <div class="def"><code>User</code><span>One account in your Firebase project (email, name, photo…)</span></div>
+          <div class="def"><code>Provider</code><span><i>How</i> a user proves who they are: Email/Password, Google, Apple, Phone… You switch each one on in the console</span></div>
+          <div class="def"><code>uid</code><span>The user's unique ID, a long text like <code>kZ3x9QpL…</code>. It never changes, even if the email changes</span></div>
+          <div class="def"><code>Current user</code><span><code>FirebaseAuth.instance.currentUser</code> gives a <code>User?</code>: a <code>User</code>, or <code>null</code> when nobody is signed in</span></div>
+        </div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Firebase <b>remembers</b> the signed-in user on the phone, so they stay signed in after the app restarts</div></div>
+      </div>
+      <div class="auth-viz" aria-hidden="true">
+        <div class="prov-col stagger">
+          <span class="prov is-on"><svg class="ico"><use href="#i-mail"/></svg>Email/Password</span>
+          <span class="prov"><span class="gmark">G</span>Google</span>
+          <span class="prov"><svg class="ico"><use href="#i-apple"/></svg>Apple</span>
+          <span class="prov"><svg class="ico"><use href="#i-phone"/></svg>Phone</span>
+          <small>providers</small>
+        </div>
+        <div class="arrow-mid"><svg class="ico"><use href="#i-arrow-right"/></svg></div>
+        <div class="card urec">
+          <span class="badge">User</span>
+          <div class="urec__who"><span class="avatar">A</span><div><b>Ahmed</b><small>ahmed@email.com</small></div></div>
+          <div class="urec__row"><small>uid</small><span class="uid">kZ3x9QpL…</span></div>
+          <div class="urec__row"><small>Signed in with</small><span>Email/Password</span></div>
+          <div class="urec__row"><small>Current user</small><span>this <b>User</b>, or <code>null</code></span></div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Analogy: the provider is the door you use to enter the building (front door, side door), the uid is your student number. Whichever door you use, the university knows you by your number. We will use the <code>uid</code> a lot to tell users apart.</p></aside>
+</section>
+
+<!-- 16 · Enable Email/Password -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Console · Authentication</p>
+      <h2 class="title">Enable Email/Password in the console</h2>
+    </header>
+    <div class="body" style="grid-template-columns: .9fr 1.1fr; gap: 2.4cqw; align-items:start;">
+      <div class="side" style="gap:1.8cqw;">
+      <ol class="steps bigsteps bigsteps--pins stagger" style="font-size:1.38cqw; gap:1.1cqw;">
+        <li><span>In the console, open your project → <b>Authentication</b> (left menu, under <b>Security</b>) → <b>Get started</b></span></li>
+        <li><span>Tab <b>Sign-in method</b> → click <b>Email/Password</b></span></li>
+        <li><span>Turn on the first switch, <b>Email/Password</b>. Leave "Email link (passwordless sign-in)" off</span></li>
+        <li><span><b>Save</b> → the provider list shows Email/Password as <b>Enabled</b></span></li>
+        <li><span>Open the <b>Users</b> tab: empty for now. Next lecture, our app fills it</span></li>
+      </ol>
+        <div class="callout callout--warn" style="font-size:1.2cqw;"><svg class="ico"><use href="#i-alert"/></svg><div>If a provider is not enabled, sign-in fails with the error code <code>operation-not-allowed</code>.</div></div>
+      </div>
+      <div class="side">
+        <figure class="shot">
+          <div class="shot__bar"><i></i><i></i><i></i><span class="shot__url"><svg class="ico"><use href="#i-lock"/></svg>console.firebase.google.com</span></div>
+          <div class="fc-app">
+            <nav class="fc-nav">
+              <div class="brand"><svg class="logo"><use href="#firebase-logo"/></svg>Course App</div>
+              <span><svg class="ico"><use href="#i-home"/></svg>Project Overview</span>
+              <h6>Security</h6>
+              <span class="is-on hot"><svg class="ico"><use href="#i-users"/></svg>Authentication<i class="pin">1</i></span>
+            </nav>
+            <div class="fc" style="padding:1cqw 1.4cqw 1.3cqw;">
+              <h5>Authentication</h5>
+              <div class="fc-tabs" style="margin-top:1.2cqw;"><span>Users<i class="pin">5</i></span><span class="is-on">Sign-in method<i class="pin">2</i></span><span>Templates</span><span>Settings</span></div>
+              <div class="fc-panel">
+                <div class="fc-row"><svg class="ico"><use href="#i-mail"/></svg><b>Email/Password</b></div>
+                <div class="fc-row"><span class="grow"><b>Email/Password</b><small>Allow users to sign up with an email address and a password</small></span><span class="fc-sw is-on hot"><i class="pin" style="right:auto; left:-2.7cqw; top:-.45cqw;">3</i></span></div>
+                <div class="fc-row"><span class="grow">Email link (passwordless sign-in)</span><span class="fc-sw"></span></div>
+                <div class="fc-actions"><span class="fc-btn fc-btn--ghost">Cancel</span><span class="fc-btn hot">Save<i class="pin">4</i></span></div>
+              </div>
+            </div>
+          </div>
+        </figure>
+        <p class="cap" style="font-size:1.15cqw;">After <b>Save</b>, the provider list shows:</p>
+        <figure class="shot">
+          <div class="fc" style="gap:0; padding:.8cqw 1.4cqw;">
+            <div class="fc-row fc-row--head"><span class="grow">Provider</span><span>Status</span></div>
+            <div class="fc-row"><svg class="ico"><use href="#i-mail"/></svg><span class="grow">Email/Password</span><span class="fc-ok"><svg class="ico"><use href="#i-check-circle"/></svg>Enabled</span></div>
+          </div>
+        </figure>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>If a provider is not enabled, sign-in fails with the error code <code>operation-not-allowed</code>. New projects also have <b>email enumeration protection</b> switched on (Authentication → Settings → User actions): Firebase does not tell strangers whether an email has an account. We will see what that means for error messages next lecture. Older screenshots show Authentication under <b>Build</b> instead of Security.</p></aside>
+</section>
+
+<!-- 17 · Summary and questions -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Wrap-up</p>
+      <h2 class="title">Summary and questions</h2>
+    </header>
+    <div class="body wrap">
+      <article class="card card--hl">
+        <h3>Today you learned</h3>
+        <ul class="checklist stagger">
+          <li><span>Firebase = a ready-made server by Google; we use <b>Authentication</b> first</span></li>
+          <li><span>Once per computer: Firebase CLI (<code>firebase login</code>) + FlutterFire CLI</span></li>
+          <li><span>Once per project: <code>flutter pub add firebase_core firebase_auth</code> → <code>flutterfire configure</code></span></li>
+          <li><span>In <code>main()</code>: <code>ensureInitialized()</code> → <code>await Firebase.initializeApp(...)</code> → <code>runApp</code></span></li>
+          <li><span>Users, providers, <code>uid</code>, <code>currentUser</code>; Email/Password is now enabled</span></li>
+        </ul>
+      </article>
+      <div class="side">
+        <article class="card">
+          <h3 style="font-size:1.35cqw;">The setup plan: all 6 stops done</h3>
+          <ul class="ticks stagger">
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>1 · Create the project in the console</span></li>
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>2 · Firebase CLI, <code>firebase login</code></span></li>
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>3 · FlutterFire CLI</span></li>
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>4 · <code>flutter pub add …</code></span></li>
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>5 · <code>flutterfire configure</code></span></li>
+            <li><svg class="ico"><use href="#i-check-circle"/></svg><span>6 · <code>Firebase.initializeApp()</code></span></li>
+          </ul>
+        </article>
+        <div class="qa__big grad-text" style="font-size:4.2cqw;">Questions?</div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Go back to Slide 5 and tick off all 6 stops. Ask two students to explain, in their own words, what <code>flutterfire configure</code> did.</p></aside>
+</section>
+
+<!-- 18 · Homework -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Before next lecture</p>
+      <h2 class="title">Homework</h2>
+    </header>
+    <div class="body hw stagger">
+      <article class="card">
+        <div class="hw__top"><span class="n">1</span><span class="badge badge--ok">Easy</span><svg class="ico"><use href="#i-link"/></svg></div>
+        <p>Connect <b>your own</b> project to a new Firebase project; the check page shows your project ID</p>
+      </article>
+      <article class="card">
+        <div class="hw__top"><span class="n">2</span><span class="badge badge--ok">Easy</span><svg class="ico"><use href="#i-wrench"/></svg></div>
+        <p>Break and fix: remove <code>ensureInitialized()</code>, then <code>await</code>; write down each error</p>
+      </article>
+      <article class="card">
+        <div class="hw__top"><span class="n">3</span><span class="badge badge--ok">Easy</span><svg class="ico"><use href="#i-eye"/></svg></div>
+        <p>Find in the console: your project ID, the registered apps, and the Email/Password switch</p>
+      </article>
+      <article class="card">
+        <div class="hw__top"><span class="n">4</span><span class="badge badge--warm">Medium</span><svg class="ico"><use href="#i-globe"/></svg></div>
+        <p>Run <code>flutterfire configure</code> again with <b>web</b> added and run the check page in Chrome</p>
+      </article>
+      <article class="card">
+        <div class="hw__top"><span class="n">5</span><span class="badge">Bonus</span><svg class="ico"><use href="#i-sparkles"/></svg></div>
+        <p>Bonus: show the platform name and the Firebase <code>appId</code> on the check page</p>
+      </article>
+      <div class="callout callout--info"><svg class="ico"><use href="#i-lock"/></svg><div><b>Next lecture:</b> our Login button really signs people in with Firebase.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Details and "done looks like" for each exercise are in the Homework section of this plan.</p></aside>
+</section>
+
+</main>
+
+<div class="notes-panel" hidden>
+  <h4 class="np-title">Speaker notes</h4>
+  <div class="np-body"></div>
+</div>
+<div class="hint" aria-hidden="true"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>N</kbd> notes · <kbd>T</kbd> theme</div>
+
+<script src="js/deck.js"></script>
+</body>
+</html>
