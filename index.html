@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lecture 20 · Firebase Setup</title>
-  <meta name="description" content="Mobile App Development with Flutter, Lecture 20: Learn what Firebase is, create a Firebase project, connect the Flutter app with the FlutterFire CLI, start Firebase in main(), and enable Email/Password sign-in.">
+  <title>Lecture 16 · Firebase Setup</title>
+  <meta name="description" content="Mobile App Development with Flutter, Lecture 16: Learn what Firebase is, create a Firebase project, connect the Flutter app with the FlutterFire CLI, start Firebase in main(), and enable Email/Password sign-in.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
@@ -92,7 +92,7 @@
 <section class="slide">
   <div class="canvas"><div class="frame frame--title" style="grid-template-columns: 1.05fr .95fr;">
     <div class="stagger">
-      <p class="kicker">Lecture 20 · Mobile App Development</p>
+      <p class="kicker">Lecture 16 · Mobile App Development</p>
       <h1 class="hero">Firebase 1:<br><span class="grad-text">Introduction &amp; Project Setup</span></h1>
       <p class="lead lead--hero">Give your app a ready-made server. Today we create a Firebase project and connect our login app to it.</p>
       <div class="chips">
@@ -150,7 +150,7 @@
       </div>
       <div class="callout callout--ok goal"><svg class="ico"><use href="#i-target"/></svg><div><b>Goal:</b> our login app connected to <b>our own</b> Firebase project, with Email/Password sign-in switched on for next lecture.</div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Warn students that today is mostly setup: many small steps, little code. Every step is done once per project, and next lecture is all code.</p></aside>
 </section>
@@ -192,7 +192,7 @@
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Compare with a restaurant: you can build a kitchen yourself, or order from one that is already running. Firebase is the running kitchen. Ask: which apps on your phone have a login? All of them need a server like this.</p></aside>
 </section>
@@ -247,7 +247,7 @@
         <p><b>Blaze</b> = pay for what you use above the free amounts.</p>
       </article>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Students only need Authentication in this course, and it is free for far more users than a student app will ever have. Limits are from firebase.google.com/pricing (November 2026); check the page if you teach this later, because Google changes them from time to time.</p></aside>
 </section>
@@ -275,7 +275,7 @@
       </div>
       <div class="callout callout--info goal"><svg class="ico"><use href="#i-terminal"/></svg><div>New word, <b>CLI</b> (command-line interface): a program you use by typing commands in the terminal.</div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Stops 1–3 are done once per computer (or once per Google account). Stops 4–6 are done once per Flutter project. Keep this slide visible and tick the stops off as you go.</p></aside>
 </section>
@@ -340,7 +340,7 @@
         <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>New projects start on the free <b>Spark</b> plan.</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Do this live and let students follow. The project ID must be unique in the whole world, so Firebase often adds random letters; it cannot be changed later. Analytics is useful in real apps but adds extra screens and terms today, so we skip it. New projects start on the free Spark plan. The console changes its look from time to time; the steps stay the same.</p></aside>
 </section>
@@ -380,7 +380,7 @@
         <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>firebase projects:list</code> must show <b>Course App</b>.</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>firebase-tools needs Node.js 20 or newer, so install the current LTS from nodejs.org. Login first asks whether Firebase may collect CLI usage data; either answer is fine. On a shared lab computer, run <code>firebase logout</code> at the end of class.</p></aside>
 </section>
@@ -432,7 +432,7 @@
       </div>
       <div class="callout callout--info" style="grid-column: 1 / -1; align-self:end;"><svg class="ico"><use href="#i-refresh"/></svg><div>Then <b>close and reopen</b> the terminal (and VS Code) and try <code>flutterfire --version</code> again.</div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p><code>dart pub global activate</code> installs a Dart program for your whole computer, not for one project. Pub itself prints a PATH warning with the exact folder when it is missing; read it out to the class. The FlutterFire CLI uses the Firebase CLI behind the scenes, so Step 2 must work first.</p></aside>
 </section>
@@ -472,7 +472,7 @@
         <div class="callout callout--info"><svg class="ico"><use href="#i-folder"/></svg><div>Run the command in the <b>project folder</b>, the one with <code>pubspec.yaml</code>.</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>We add the packages before running <code>flutterfire configure</code>, so the CLI sees which Firebase products the app uses. Your <code>pubspec.yaml</code> will also list the packages from earlier lectures; that is fine.</p></aside>
 </section>
@@ -511,9 +511,9 @@ ios       1:123456789012:ios:…</pre>
         <div class="callout callout--info"><svg class="ico"><use href="#i-windows"/></svg><div>iOS is only configured when you run this on a <b>Mac</b>. On Windows, choose android (and web).</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
-  <aside class="notes"><p>Run it in the project folder. If it asks to overwrite <code>firebase_options.dart</code>, answer yes. iOS is only configured when you run this on a Mac; on Windows, choose android (and web). Run the command again whenever you add a platform or a sign-in method such as Google (Lecture 22).</p></aside>
+  <aside class="notes"><p>Run it in the project folder. If it asks to overwrite <code>firebase_options.dart</code>, answer yes. iOS is only configured when you run this on a Mac; on Windows, choose android (and web). Run the command again whenever you add a platform or a sign-in method such as Google (Lecture 18).</p></aside>
 </section>
 
 <!-- 11 · What flutterfire configure created -->
@@ -543,7 +543,7 @@ ios       1:123456789012:ios:…</pre>
         <div class="callout callout--warn" style="font-size:1.3cqw;"><svg class="ico"><use href="#i-alert"/></svg><div><b>Never type or edit them by hand</b>: run <code>flutterfire configure</code> again instead</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Open <code>lib/firebase_options.dart</code> in VS Code and scroll through it: one <code>FirebaseOptions</code> block per platform with <code>apiKey</code>, <code>appId</code>, <code>projectId</code>… <code>currentPlatform</code> picks the right block for the phone the app runs on. Security comes from Firebase's rules on the server, not from hiding these IDs.</p></aside>
 </section>
@@ -580,7 +580,7 @@ ios       1:123456789012:ios:…</pre>
         <div class="callout callout--warn"><svg class="ico"><use href="#i-clock"/></svg><div>The first iOS build after adding Firebase is <b>slow</b> (it downloads the Firebase iOS SDK)</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Nothing to change in a new project. Only an old project with a hard-coded <code>minSdk = 21</code> (or a Podfile with <code>'13.0'</code>) needs the number raised. The plugin version may be different on your machine; keep what the CLI wrote.</p></aside>
 </section>
@@ -607,13 +607,13 @@ Future&lt;void&gt; main() async {
 }</pre>
       </div>
       <div class="legend-groups stagger">
-        <div class="lg" style="--c:#13B9FD;"><span class="n">1</span><b><code>Future&lt;void&gt; main() async</code></b><span><code>main</code> now waits for something, so it is <code>async</code> (Lecture 18)</span></div>
+        <div class="lg" style="--c:#13B9FD;"><span class="n">1</span><b><code>Future&lt;void&gt; main() async</code></b><span><code>main</code> now waits for something, so it is <code>async</code> (Lecture 15)</span></div>
         <div class="lg" style="--c:#FFC857;"><span class="n">2</span><b><code>ensureInitialized()</code></b><span>Gets Flutter ready <b>before</b> a plugin talks to Android or iOS</span></div>
         <div class="lg" style="--c:#4ADE80;"><span class="n">3</span><b><code>await Firebase.initializeApp(...)</code></b><span>Connects to <b>our</b> project and waits until it is done</span></div>
         <div class="lg" style="--c:#C792EA;"><span class="n">4</span><b><code>runApp</code> comes last</b><span>The app starts only when Firebase is ready</span></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Read it line by line. If your <code>main()</code> already has other lines from earlier lectures (for example <code>EasyLocalization.ensureInitialized()</code> or a Provider), keep them: just make sure the binding line comes first and <code>runApp</code> comes last.</p></aside>
 </section>
@@ -655,7 +655,7 @@ Text('Project ID: ${app.options.projectId}'),</pre>
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Then break it on purpose: comment out the <code>await Firebase.initializeApp(...)</code> line and run again. The red screen says "[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()". Put the line back. Errors are friends when you can read them.</p></aside>
 </section>
@@ -695,7 +695,7 @@ Text('Project ID: ${app.options.projectId}'),</pre>
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Analogy: the provider is the door you use to enter the building (front door, side door), the uid is your student number. Whichever door you use, the university knows you by your number. We will use the <code>uid</code> a lot to tell users apart.</p></aside>
 </section>
@@ -749,7 +749,7 @@ Text('Project ID: ${app.options.projectId}'),</pre>
         </figure>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>If a provider is not enabled, sign-in fails with the error code <code>operation-not-allowed</code>. New projects also have <b>email enumeration protection</b> switched on (Authentication → Settings → User actions): Firebase does not tell strangers whether an email has an account. We will see what that means for error messages next lecture. Older screenshots show Authentication under <b>Build</b> instead of Security.</p></aside>
 </section>
@@ -787,7 +787,7 @@ Text('Project ID: ${app.options.projectId}'),</pre>
         <div class="qa__big grad-text" style="font-size:4.2cqw;">Questions?</div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Go back to Slide 5 and tick off all 6 stops. Ask two students to explain, in their own words, what <code>flutterfire configure</code> did.</p></aside>
 </section>
@@ -822,7 +822,7 @@ Text('Project ID: ${app.options.projectId}'),</pre>
       </article>
       <div class="callout callout--info"><svg class="ico"><use href="#i-lock"/></svg><div><b>Next lecture:</b> our Login button really signs people in with Firebase.</div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 20</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 16</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Details and "done looks like" for each exercise are in the Homework section of this plan.</p></aside>
 </section>
